@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="capital.css">
+
+</head>
+<body>
+  <div id="g">
+   
+    <!-- TITLE -->
+    <div class="sc active" id="s-title">
+      <h1>Marx's Das Capital</h1>
+      <p>learning key political economy definitons through a game</p>
+      <button class="btn" onclick="go('s1-play')">begin</button>
+    </div>
+   
+    <!-- S1: MEANS OF PRODUCTION -->
+    <div class="sc" id="s1-play">
+      <div class="badge">i</div>
+      <p>before you can grow anything —<br>check what you have access to.</p>
+      <div class="items">
+        <div class="item">
+          <span class="item-name">land</span>
+          <span class="item-status" id="land-status" style="color:var(--red-400);">not yours</span>
+        </div>
+        <div class="item">
+          <span class="item-name">seed</span>
+          <span class="item-status" id="seed-status" style="color:var(--red-400);">not yours</span>
+        </div>
+        <div class="item">
+          <span class="item-name">tool</span>
+          <span class="item-status" id="tool-status" style="color:var(--red-400);">not yours</span>
+        </div>
+      </div>
+      <p id="s1-hint">you cannot begin.</p>
+      <button class="btn" id="s1-next" style="display:none" onclick="go('s1-def')">→</button>
+    </div>
+   
+    <div class="sc" id="s1-def">
+      <div class="badge">i</div>
+      <div class="definition">
+        <div class="def-term">means of production </div>
+        <div class="def-quote">"The means of production are the materials and tools used in the production of goods or services... Labour-power in use is labour itself. By working, the labourer becomes actually what before he only was potentially."</div>
+        <div class="def-src">— Capital, Vol. I, Ch. 7</div>
+      </div>
+      <button class="btn" onclick="go('s2-play')">→</button>
+    </div>
+   
+    <!-- S2: LABOUR POWER + WAGE LABOUR -->
+    <div class="sc" id="s2-play">
+      <div class="badge">ii</div>
+      <div class="farm" id="farm2" onclick="workFarm()">
+        <span class="hint" id="farm2-hint">click to work</span>
+      </div>
+      <div class="row">
+        <div class="card">
+          <div class="lbl">hours spent</div>
+          <div class="val" id="s2-hours">0</div>
+        </div>
+        <div class="card">
+          <div class="lbl">wage earned</div>
+          <div class="val" id="s2-wage">0</div>
+        </div>
+      </div>
+      <p id="s2-note" style="font-size:12px;opacity:0;transition:opacity .5s;font-style:italic;">you are not selling your crop.<br>you are selling your time.</p>
+      <button class="btn" id="s2-next" style="display:none" onclick="go('s2-def')">→</button>
+    </div>
+   
+    <div class="sc" id="s2-def">
+      <div class="badge">ii</div>
+      <div class="definition">
+        <div class="def-term">labour-power / wage labour</div>
+        <div class="def-quote">"Labour-power is a commodity which its possessor, the wage-worker, sells to the capitalist... His life-activity is but a means of securing his own existence. He works that he may keep alive."</div>
+        <div class="def-src">— Wage Labour and Capital</div>
+      </div>
+      <button class="btn" onclick="go('s3-play')">→</button>
+    </div>
+   
+    <!-- S3: SURPLUS VALUE -->
+    <div class="sc" id="s3-play">
+      <div class="badge">iii</div>
+      <p>keep clicking. watch where it goes.</p>
+      <div class="machine" id="mach3" onclick="machineClick()">
+        <div class="mico">⚙️</div>
+        <div class="msub">click</div>
+      </div>
+      <div class="split-counter">
+        <div class="split-yours">
+          <div class="split-lbl">your wage</div>
+          <div class="split-val" id="s3-yours" style="color:var(--green-800);">0</div>
+        </div>
+        <div class="split-theirs">
+          <div class="split-lbl">surplus</div>
+          <div class="split-val" id="s3-theirs" style="color:var(--red-400);">0</div>
+        </div>
+      </div>
+      <p id="s3-note" style="font-size:12px;opacity:0;transition:opacity .5s;font-style:italic;">the second half of your day<br>was not paid for.</p>
+      <button class="btn" id="s3-next" style="display:none" onclick="go('s3-def')">→</button>
+    </div>
+   
+    <div class="sc" id="s3-def">
+      <div class="badge">iii</div>
+      <div class="definition">
+        <div class="def-term">surplus value</div>
+        <div class="def-quote">"Surplus-value is produced by the workers during production, because some of the labour the workers perform is unpaid. The new commodities produced, which include this surplus-value, are appropriated by the capitalist."</div>
+        <div class="def-src">— Capital, Vol. I</div>
+      </div>
+      <button class="btn" onclick="go('s4-play')">→</button>
+    </div>
+   
+    <!-- S4: COMMODITY -->
+    <div class="sc" id="s4-play">
+      <div class="badge">iv</div>
+      <div class="farm" id="farm4" onclick="growCrop()">
+        <span class="hint" id="farm4-hint">click to grow</span>
+      </div>
+      <div class="commodity-box" id="cbox" style="opacity:.3;">
+        <div class="arrow-row">
+          <span style="font-size:28px;" id="crop-icon">🌾</span>
+          <span class="arrow">→</span>
+          <span class="tag">use-value</span>
+          <span class="arrow">→</span>
+          <span class="tag price" id="price-tag">$0</span>
+        </div>
+        <p style="font-size:12px;margin:0;font-style:italic;">it is no longer yours.<br>it has become a price.</p>
+      </div>
+      <button class="btn" id="s4-next" style="display:none" onclick="go('s4-def')">→</button>
+    </div>
+   
+    <div class="sc" id="s4-def">
+      <div class="badge">iv</div>
+      <div class="definition">
+        <div class="def-term">commodity</div>
+        <div class="def-quote">"A commodity is, in the first place, an object outside us, a thing that by its properties satisfies human wants of some sort or another... The utility of a thing makes it a use-value."</div>
+        <div class="def-src">— Capital, Vol. I, Ch. 1</div>
+      </div>
+      <button class="btn" onclick="go('s5-play')">→</button>
+    </div>
+   
+    <!-- S5: WORKERS' STRIKE -->
+    <div class="sc" id="s5-play">
+      <div class="badge">v</div>
+      <div class="machine" id="mach5" onclick="tryWork()">
+        <div class="mico">⚙️</div>
+        <div class="msub" id="m5sub">click</div>
+      </div>
+      <div class="bubbles" id="s5-bubbles" style="opacity:0;transition:opacity .6s;">
+        <div class="bub">🧑‍🌾 "we built this."</div>
+        <div class="bub">👩‍🌾 "every season, less."</div>
+        <div class="bub">🧑‍🌾 "without us, it's just metal."</div>
+      </div>
+      <div class="silent" id="s5-silent" style="display:none;">
+        <div class="sico">⚙️</div>
+        <div class="slbl">production: stopped</div>
+      </div>
+      <p id="s5-note" style="font-size:13px;opacity:0;transition:opacity .8s;font-style:italic;">they stopped.<br>all of them.<br>at the same time.</p>
+      <button class="btn" id="s5-next" style="display:none" onclick="go('s5-def')">→</button>
+    </div>
+   
+    <div class="sc" id="s5-def">
+      <div class="badge">v</div>
+      <div class="wrow" style="margin-bottom:4px;">✊ 👊 ✊</div>
+      <div class="definition">
+        <div class="def-term">workers' strike</div>
+        <div class="def-quote">"The working class alone produces all values... But these values produced by the workers do not belong to the workers. They belong to the owners of the raw materials, machines, tools, and money."</div>
+        <div class="def-src">— Wage Labour and Capital</div>
+      </div>
+      <p style="font-size:13px;font-style:italic;">without the workers, nothing moves.</p>
+      <button class="btn ghost" onclick="go('s-title');resetAll()">again</button>
+    </div>
+   
+  </div>
+  <script src="capital.js"></script>
+  </body>
+  </html>
